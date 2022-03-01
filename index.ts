@@ -59,7 +59,7 @@ function getMp3Duration(base64: string): Promise<number> {
     let offset = skipID3(scratch);
     let duration = 0;
 
-    const promise = new Promise(resolve => {
+    return new Promise(resolve => {
         while (offset < buffer.length) {
             const bytesRead = buffer.copy(scratch, 0, offset, offset + 10);
             if (bytesRead < 10) {
@@ -90,8 +90,6 @@ function getMp3Duration(base64: string): Promise<number> {
 
         resolve(round(duration));
     });
-
-    return promise;
 }
 
 function skipID3(buffer) {

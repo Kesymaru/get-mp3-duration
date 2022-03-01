@@ -53,7 +53,6 @@ function getMp3Duration(base64: string): Promise<number> {
     const scratch = Buffer.alloc(100);
     const bytesRead = buffer.copy(scratch, 0, 0, 100);
     if (bytesRead < 100) {
-        console.log('fail 0');
         return Promise.resolve(0);
     }
 
@@ -69,7 +68,6 @@ function getMp3Duration(base64: string): Promise<number> {
 
             // looking for 1111 1111 111 (frame synchronization bits)
             if (scratch[0] === 0xff && (scratch[1] & 0xe0) === 0xe0) {
-                console.log('look header');
                 const header = parseFrameHeader(scratch);
 
                 if (header.frameSize && header.samples) {

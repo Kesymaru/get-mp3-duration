@@ -25,7 +25,19 @@ const sampleRates = {
     '2.5': [11025, 12000, 8000],
 };
 
-const samples = {
+interface Sample {
+    x: number;
+    1: number;
+    2: number;
+    3: number;
+}
+interface Samples {
+    x: Sample;
+    1: Sample;
+    2: Sample;
+}
+
+const samples: Samples = {
     x: {
         x: 0,
         1: 0,
@@ -47,23 +59,27 @@ const samples = {
         3: 576,
     },
 };
-function getMp3Duration(base64: string): Promise<number> {
+
+type TimeFormat = 'miliseconds' | 'seconds' | 'minutes';
+
+function getMp3Duration(base64: string, timeFormat: TimeFormat = 'miliseconds'): Promise<number> {
     const buffer = Buffer.from(base64, 'base64');
 
     const scratch = Buffer.alloc(100);
     const bytesRead = buffer.copy(scratch, 0, 0, 100);
     if (bytesRead < 100) {
+        console.log('invalid file');
         return Promise.resolve(0);
     }
 
     let offset = skipID3(scratch);
     let duration = 0;
 
-    return new Promise(resolve => {
+    return new Promise<number>((resolve) => {
         while (offset < buffer.length) {
             const bytesRead = buffer.copy(scratch, 0, offset, offset + 10);
             if (bytesRead < 10) {
-                return round(duration);
+                return resolve(round(duration, timeFormat));
             }
 
             // looking for 1111 1111 111 (frame synchronization bits)
@@ -88,11 +104,11 @@ function getMp3Duration(base64: string): Promise<number> {
             }
         }
 
-        resolve(round(duration));
+        resolve(round(duration, timeFormat));
     });
 }
 
-function skipID3(buffer) {
+function skipID3(buffer: Buffer) {
     // http://id3.org/d3v2.3.0
     if (buffer[0] === 0x49 && buffer[1] === 0x44 && buffer[2] === 0x33) {
         // ID3
@@ -132,7 +148,7 @@ function frameSize(samples, layer, bitRate, sampleRate, paddingBit) {
     }
 }
 
-function parseFrameHeader(header) {
+function parseFrameHeader(header: Buffer) {
     const b1 = header[1];
     const b2 = header[2];
 
@@ -162,8 +178,14 @@ function parseFrameHeader(header) {
     };
 }
 
-function round(duration) {
-    return Math.round(duration * 1000); // round to nearest ms
+function round(duration, timeFormat: TimeFormat) {
+    if(timeFormat === 'seconds') {
+        return duration; // seconds
+    }
+    if(timeFormat === 'minutes') {
+        return duration * 60;
+    }
+    return Math.round(duration * 1000); // miliseconds
 }
 
 export default getMp3Duration;

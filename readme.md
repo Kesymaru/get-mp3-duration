@@ -1,4 +1,4 @@
-# get-mp3-duration
+# react-native-get-mp3-duration
 
 > Computes the duration of an mp3 buffer in node or browser.
 

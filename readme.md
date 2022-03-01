@@ -16,6 +16,7 @@ yarn add get-mp3-duration
 
 ```js
 import getMP3Duration from 'get-mp3-duration';
+import {FileSystem} from 'react-native-file-access'; // or another lib that read the file into base64
 
 const bufferStr = await FileSystem.readFile('fixtures/vbr.mp3', 'base64')
 const duration = await getMP3Duration(bufferStr)

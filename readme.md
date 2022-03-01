@@ -1,6 +1,6 @@
 # react-native-get-mp3-duration
 
-> Computes the duration of an mp3 buffer in node or browser.
+> Computes the duration of an mp3 buffer in react native
 
 [![NPM](https://img.shields.io/npm/v/get-mp3-duration.svg)](https://www.npmjs.com/package/get-mp3-duration) [![Build Status](https://travis-ci.com/transitive-bullshit/get-mp3-duration.svg?branch=master)](https://travis-ci.com/transitive-bullshit/get-mp3-duration) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -15,9 +15,10 @@ yarn add get-mp3-duration
 ## Usage
 
 ```js
-const getMP3Duration = require('get-mp3-duration')
-const buffer = fs.readFileSync('fixtures/vbr.mp3')
-const duration = getMP3Duration(buffer)
+import getMP3Duration from 'get-mp3-duration';
+
+const bufferStr = await FileSystem.readFile('fixtures/vbr.mp3', 'base64')
+const duration = await getMP3Duration(bufferStr)
 
 console.log(duration, 'ms') => 285727 ms
 ```

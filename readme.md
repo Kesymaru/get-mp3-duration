@@ -7,21 +7,33 @@
 ## Install
 
 ```bash
-npm install --save get-mp3-duration
+npm install --save react-native-get-mp3-duration
 # or
-yarn add get-mp3-duration
+yarn add react-native-get-mp3-duration
 ```
 
 ## Usage
 
-```js
+```typescript
 import getMP3Duration from 'get-mp3-duration';
 import {FileSystem} from 'react-native-file-access'; // or another lib that read the file into base64
 
 const bufferStr = await FileSystem.readFile('fixtures/vbr.mp3', 'base64')
 const duration = await getMP3Duration(bufferStr)
 
-console.log(duration, 'ms') => 285727 ms
+console.log(duration, 'ms') // 285727 ms
+```
+
+## Duration in seconds
+
+```typescript
+import getMP3Duration from 'get-mp3-duration';
+import {FileSystem} from 'react-native-file-access'; // or another lib that read the file into base64
+
+const bufferStr = await FileSystem.readFile('fixtures/vbr.mp3', 'base64')
+const duration = await getMP3Duration(bufferStr, 'seconds')
+
+console.log(duration, 'seconds') // 285.727 seconds
 ```
 
 ## Related

@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "Computes the duration of an mp3 in react native.",
   "main": "index.ts",
-  "repository": "transitive-bullshit/get-mp3-duration",
+  "repository": "Kesymaru/react-native-get-mp3-duration",
   "author": "Travis Fischer <travis@automagical.ai>",
   "license": "MIT",
   "reveal": true,
